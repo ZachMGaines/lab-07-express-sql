@@ -14,9 +14,7 @@ async function run() {
         return client.query(`
           INSERT INTO mortal_kombat (name, species, url, introduced, is_ninja, fighting_style)
           VALUES ($1, $2, $3, $4, $5, $6);
-        `,
-          // eslint-disable-next-line indent
-          [character.name, character.species, character.url, character.introduced, character.isNinja, character.fightingStyle]);
+        `, [character.name, character.species, character.url, character.introduced, character.isNinja, character.fightingStyle]);
       })
     );
 
