@@ -1,8 +1,8 @@
 import app from '../lib/app.js';
 import supertest from 'supertest';
 import client from '../lib/client.js';
-//import { execSync } from 'child_process';
-const exec = require('child_process').exec;
+import { execSync } from 'child_process';
+
 
 const request = supertest(app);
 
@@ -18,7 +18,7 @@ describe('API Routes', () => {
   describe('API mortal kombat CRUD', () => {
 
     beforeAll(() => {
-      exec('npm run recreate-tables');
+      execSync('npm run recreate-tables');
     });
 
 
