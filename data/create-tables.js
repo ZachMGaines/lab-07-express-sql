@@ -9,7 +9,14 @@ async function run() {
   try {
 
     // run a query to create tables
-    await client.query(`          
+    await client.query(`         
+    CREATE TABLE users (
+      id SERIAL PRIMARY KEY NOT NULL,
+      name VARCHAR(512) NOT NULL,
+      email VARCHAR(512) NOT NULL,
+      password VARCHAR(512) NOT NULL
+    );
+
       CREATE TABLE mortal_kombat (
         id SERIAL PRIMARY KEY NOT NULL,
         name VARCHAR(512) NOT NULL,
@@ -17,7 +24,8 @@ async function run() {
         url VARCHAR(1024) NOT NULL,
         introduced INTEGER NOT NULL,
         is_ninja BOOLEAN DEFAULT FALSE,
-        fighting_style VARCHAR(512) NOT NULL
+        fighting_style VARCHAR(512) NOT NULL,
+        user_id INTEGER NOT NULL REFERENCES users(id)
       );
     `);
 
