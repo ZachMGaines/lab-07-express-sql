@@ -23,8 +23,6 @@ describe('API Routes', () => {
     beforeAll(async () => {
       execSync('npm run recreate-tables');
 
-
-
       const response = await request
         .post('/api/auth/signup')
         .send({
@@ -32,7 +30,7 @@ describe('API Routes', () => {
           email: 'zacharygaines28@gmail.com',
           password: 'happy'
         });
-      console.log('HELLO', response.status);
+
       expect(response.status).toBe(200);
       user = response.body;
 
@@ -97,6 +95,7 @@ describe('API Routes', () => {
         introduced: 3,
         isNinja: true,
         fightingStyle: 'Ninjutsu',
+        userId: 1,
       },
 
       {
@@ -107,6 +106,7 @@ describe('API Routes', () => {
         introduced: 1,
         isNinja: true,
         fightingStyle: 'Shotokan',
+        userId: 1,
       },
 
       {
@@ -117,14 +117,18 @@ describe('API Routes', () => {
         introduced: 1,
         isNinja: false,
         fightingStyle: 'Shokan',
+        userId: 1,
+
       },
     ];
     // If a GET request is made to /api/cats, does:
     // 1) the server respond with status of 200
     // 2) the body match the expected API data?
     //Third TEST
-    it.skip('GET /api/mortalkombat', async () => {
+    it('GET /api/mortalkombat', async () => {
       // act - make the request
+      subZero.userId = user.id;
+      goro.userId = user.id;
       const response1 = await request.post('/api/mortalkombat').send(subZero);
       subZero = response1.body;
       const response2 = await request.post('/api/mortalkombat').send(goro);
@@ -136,7 +140,7 @@ describe('API Routes', () => {
       expect(response.status).toBe(200);
 
       // did it return the data we expected?
-      expect(response.body).toEqual(characters);
+      expect(response.body).toEqual(expect.arrayContaining(characters));
 
     });
 
@@ -144,7 +148,7 @@ describe('API Routes', () => {
     // 1) the server respond with status of 200
     // 2) the body match the expected API data for the cat with that id?
     //FOURTH TEST
-    test.skip('GET /api/mortalkombat/:id', async () => {
+    test('GET /api/mortalkombat/:id', async () => {
       const response = await request.get('/api/mortalkombat/2');
       expect(response.status).toBe(200);
       expect(response.body).toEqual(characters[1]);
@@ -153,7 +157,7 @@ describe('API Routes', () => {
 
 
     //SECOND TEST
-    it.skip('PUT updated felix to /api/mortalkombat/:id', async () => {
+    it('PUT updated cyrax to /api/mortalkombat/:id', async () => {
       let expectedCyrax = {
         id: 1,
         name: 'Cyrax',
@@ -162,6 +166,7 @@ describe('API Routes', () => {
         introduced: 2,
         isNinja: true,
         fightingStyle: 'Ninjutsu',
+        userId: 1
       };
       const newCyrax = {
         id: 1,
@@ -171,6 +176,7 @@ describe('API Routes', () => {
         introduced: 2,
         isNinja: true,
         fightingStyle: 'Ninjutsu',
+        userId: 1
       };
 
       const response = await request
